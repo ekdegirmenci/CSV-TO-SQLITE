@@ -1,0 +1,98 @@
+
+================================================================================
+DATABASE DOCUMENTATION
+================================================================================
+Generated: 2026-03-19 09:08:24
+Converter Version: 2.0.1
+Source: C:\Users\ekdegirmenci\AppData\Local\Temp\csv2sqlite_test__gkdtgnx\test.csv
+Created By: CSV-to-SQLite Universal Converter (Admin-Free Compatible)
+
+================================================================================
+DATABASE INFORMATION
+================================================================================
+Type: SQLite3
+File: C:\Users\ekdegirmenci\AppData\Local\Temp\csv2sqlite_test__gkdtgnx\test.db
+Size: 0.0 MB
+Records: 2
+Columns: 2
+Encoding: utf-8
+
+================================================================================
+TABLE STRUCTURE
+================================================================================
+Table Name: data
+
+Columns:
+
+  1. id                                       INTEGER    NULL
+  2. name                                     TEXT       NULL
+
+================================================================================
+METADATA TABLE
+================================================================================
+Table: _metadata
+Columns: column_name, data_type, non_null_count, null_count, null_percentage, unique_values
+Purpose: Column information and data quality tracking
+
+================================================================================
+QUICK START QUERIES
+================================================================================
+
+-- Count records
+SELECT COUNT(*) FROM [data];
+
+-- Get null statistics
+SELECT * FROM _metadata ORDER BY null_percentage DESC;
+
+-- First 10 records
+SELECT * FROM [data] LIMIT 10;
+
+-- Export to CSV
+.mode csv
+.output export.csv
+SELECT * FROM [data];
+.quit
+
+================================================================================
+PYTHON USAGE
+================================================================================
+
+import sqlite3
+import pandas as pd
+
+# Connect to database
+conn = sqlite3.connect('C:\Users\ekdegirmenci\AppData\Local\Temp\csv2sqlite_test__gkdtgnx\test.db')
+
+# Load all data
+df = pd.read_sql_query('SELECT * FROM [data]', conn)
+
+# Load subset (first 1000 rows)
+df = pd.read_sql_query('SELECT * FROM [data] LIMIT 1000', conn)
+
+# Get metadata
+metadata = pd.read_sql_query('SELECT * FROM _metadata', conn)
+
+# Close connection
+conn.close()
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Q: "database is locked" error?
+A: Close other applications accessing the database. Use .timeout parameter.
+
+Q: "no such table or column"?
+A: Column names may be sanitized. Check _metadata table.
+
+Q: How to update data?
+A: Re-run converter with updated CSV file.
+
+Q: How to backup?
+A: Copy .db file to another location. Automated backup created before overwrite.
+
+================================================================================
+STATUS: ✅ READY FOR USE
+Verified on: Windows (no admin), CSV size: 2.384185791015625e-05 MB
+Rows imported: 2 | Columns: 2 | Indexes: 0
+================================================================================
